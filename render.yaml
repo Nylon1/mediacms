@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mediacms
+    env: python
+    buildCommand: |
+      apt-get update && apt-get install -y libxml2-dev libxmlsec1-dev xmlsec1 pkg-config
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn mediacms.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DEBUG
+        value: True
