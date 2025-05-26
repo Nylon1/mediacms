@@ -37,7 +37,8 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Install runtime system dependencies
 RUN apt-get update -y && \
     apt-get -y upgrade && \
-    apt-get install --no-install-recommends supervisor nginx imagemagick procps libxml2-dev libxmlsec1-dev libxmlsec1-openssl -y && \
+    apt-get install --no-install-recommends supervisor nginx imagemagick procps \
+    libxml2-dev libxmlsec1-dev libxmlsec1-openssl xmlsec1 -y && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge --auto-remove && \
     apt-get clean
@@ -69,7 +70,6 @@ COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
 
 # required for sprite thumbnail generation for large video files
-
 COPY deploy/docker/policy.xml /etc/ImageMagick-6/policy.xml
 
 # Set process control environment variables
